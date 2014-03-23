@@ -39,7 +39,6 @@ var HueTimer = {
     self = this;
   },
   registration:function(){
-    console.log("http://" + this.options.bridgeIP + "/api");
     $.ajax({
         contentType : 'application/json',
         type : 'GET',

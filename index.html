@@ -45,10 +45,9 @@
     if (lights){
       lights = lights.split(",")
     }
-    if (bridgeip){
+    if (bridgeip != null){
       $("#bridgeinfo").hide();
-    }
-    var hueTimer = Object.create(HueTimer,{bridgeIP:bridgeip,
+      var hueTimer = Object.create(HueTimer,{bridgeIP:bridgeip,
         lights: lights,
         pressBridge:function(msg){
           $("#errormsg").html(msg);
@@ -57,8 +56,9 @@
           $("#bridgeipinput").focus();
         },
         });
-    // check registration
-    hueTimer.registration();
+      // check registration
+      hueTimer.registration();
+    }
 
     var width=$(document).width();
     var height=$(document).height();
