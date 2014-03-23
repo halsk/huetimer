@@ -10,7 +10,7 @@ How to start
     cd huetimer
     open index.html
 
-Example (if you want to use classes)
+Example (if you want to customize this app)
 -------
 
     <script>
