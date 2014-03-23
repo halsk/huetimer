@@ -3,7 +3,15 @@ Hue Timer using jQuery Knob
 
 - Timer application using jQuery Knob
 
-Example
+How to start
+-------
+<script>
+  git clone https://github.com/halsk/huetimer.git
+  cd huetimer
+  open index.html
+</script>
+
+Example (if you want to use classes)
 -------
 
     <script>
