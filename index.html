@@ -68,7 +68,7 @@
       $("#bridgeipinput2").val(bridgeip);
       $("#bridgeinfo").hide();
       var hueTimer = Object.create(HueTimer,{bridgeIP:bridgeip,
-          debugMode:true,
+          debugMode:false,
           lights: lights,
           pressBridge:function(msg){
             $("#errormsg").html(msg);
