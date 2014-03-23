@@ -6,9 +6,9 @@ Hue Timer using jQuery Knob
 How to start
 -------
 
-  git clone https://github.com/halsk/huetimer.git
-  cd huetimer
-  open index.html
+    git clone https://github.com/halsk/huetimer.git
+    cd huetimer
+    open index.html
 
 Example (if you want to use classes)
 -------
