@@ -42,8 +42,9 @@ var HueTimer = {
   },
   registration:function(){
     if (self.options.debugMode){
-      self.lights.push(1);
-      self.lights.push(2);
+      self.lights.push("1");
+      self.lights.push("2");
+      self.lights.push("3");
       return;
     }
     $.ajax({
@@ -112,7 +113,9 @@ var HueTimer = {
     var jatuation = 255
     var isAlert = (maxTime - newVal <= 0)
     $.each(self.lights,function(index,value){
-        self.changeState(value, bright, hue, isAlert);
+        if (self.options.lights == null || $.inArray(value, self.options.lights) > -1){
+          self.changeState(value, bright, hue, isAlert);
+        }
     });
   },
   changeState: function(lightid, bright, hue, isAlert){
