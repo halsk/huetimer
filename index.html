@@ -12,10 +12,22 @@
   #timerbox{margin: 0 auto;text-align:center;height:100%;vertical-center:middle;}
   .qa{position:absolute;top:100;}
   #qabox{position:absolute;top:0;width:100%;text-align:center;height:100%;vertical-align: middle;}
-  #bridgeinfo{position:absolute;top:0;color:#fff;text-align:center;margin:0 auto;width:100%;};
+  #bridgeinfo{position:absolute;top:0;color:#fff;text-align:center;margin:0 auto;width:100%;}
+  #setting{position:absolute;top:4px;left:32px;color:#fff;width:100%;}
+  #setbutton{position:absolute;top:4px;left:4px;}
   </style>
 </head>
 <body>
+  <img src="btn_setting.png" id="setbutton"/>
+  <div id="setting">
+    <form>
+      <input type="hidden" name="bridgeip" value="" id="bridgeipinput2"></input>
+      MaxTime(seconds):<input type="input" name="maxtime" value="" size="4"></input>
+      SecondTime(seconds):<input type="input" name="secondtime" value="" size="4"></input>
+      Hue ID(comma separated):<input type="input" name="lights" value="" size="8"></input>
+      <input type="submit" name="submit"></input><br/>
+    </form>
+  </div>
   <div id="timerbox">
     <input class="knob" data-width="200" data-displayPrevious=true value="0">
     <div id="qabox">
@@ -38,14 +50,22 @@
            return results[1] || 0;
         }
     }
+    $("#setting").offset({left: $("#setting").width() * -1});
     var bridgeip = $.urlParam("bridgeip");
     var maxTime = $.urlParam("maxtime") || 180;
+    $("input[name=maxtime]").val(maxTime);
     var secondtime = $.urlParam("secondtime") || 120;
-    var lights = $.urlParam("lights");
-    if (lights != null){
-      lights = lights.split(",")
+    $("input[name=secondtime").val(secondtime);
+    var lights = null;
+    if ($.urlParam("lights") != null && $.urlParam("lights") != ""){
+      lights = decodeURIComponent($.urlParam("lights"));
+      $("input[name=lights").val(lights);
+      if (lights != null){
+        lights = lights.split(",")
+      }
     }
-    if (bridgeip != null){
+    if (bridgeip != null && bridgeip != ""){
+      $("#bridgeipinput2").val(bridgeip);
       $("#bridgeinfo").hide();
       var hueTimer = Object.create(HueTimer,{bridgeIP:bridgeip,
           debugMode:true,
@@ -54,6 +74,7 @@
             $("#errormsg").html(msg);
             $("#bridgeinfo").show();
             $("#bridgeipinput").val(bridgeip);
+            $("#bridgeipinput2").val(bridgeip);
             $("#bridgeipinput").focus();
           },
         });
@@ -74,6 +95,17 @@
     $('#timerbox').offset({'top':height * 0.1})
     $('#qabox').offset({top:height * 0.8 * 0.25});
     $('#qabox').hide()
+    $('#setbutton').hover(function(){
+        $('#setbutton').css( 'cursor', 'pointer' );
+        });
+
+    $('#setbutton').click(function(){
+        if ($("#setting").offset().left < 0){
+          $("#setting").animate({left: 32}, "slow");
+          }else{
+          $("#setting").animate({left: $("#setting").width() * -1}, "slow");
+        }
+        });
   </script>
   <audio id="audio" src="voices/timeup.mp3" type="audio/mpeg" preload="auto">
 </body>
