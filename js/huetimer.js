@@ -27,8 +27,10 @@ Object.create = function(o){
  */
 var HueTimer = {
   options:{
+    debugMode:false, // debug mode for no Hue users ;)
     bridgeIP:"192.168.1.146",
     apiKey:"huetimerapp",
+    lights: null,
     pressBridge:function(msg){
       alert(msg);
     },
@@ -39,6 +41,11 @@ var HueTimer = {
     self = this;
   },
   registration:function(){
+    if (self.options.debugMode){
+      self.lights.push(1);
+      self.lights.push(2);
+      return;
+    }
     $.ajax({
         contentType : 'application/json',
         type : 'GET',
@@ -87,9 +94,9 @@ var HueTimer = {
     var opt = {};
     $.extend(opt, userdefinedoptions);
     var additional = ''
-    if (opt.lightid)
+    if (opt.lightid != null)
       additional = '/' + opt.lightid
-    if (opt.method)
+    if (opt.method != null)
       additional = additional + "/" + opt.method
 
     console.log("http://" + self.options.bridgeIP + "/api/" + self.options.apiKey + '/' + opt.path + additional);
@@ -105,8 +112,7 @@ var HueTimer = {
     var jatuation = 255
     var isAlert = (maxTime - newVal <= 0)
     $.each(self.lights,function(index,value){
-        if (index != 5) return;
-        self.changeState(index, bright, hue, isAlert);
+        self.changeState(value, bright, hue, isAlert);
     });
   },
   changeState: function(lightid, bright, hue, isAlert){

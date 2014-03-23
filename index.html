@@ -39,22 +39,23 @@
         }
     }
     var bridgeip = $.urlParam("bridgeip");
-    var maxTime = $.urlParam("maxtime");
-    var secondtime = $.urlParam("secondtime");
+    var maxTime = $.urlParam("maxtime") || 180;
+    var secondtime = $.urlParam("secondtime") || 120;
     var lights = $.urlParam("lights");
-    if (lights){
+    if (lights != null){
       lights = lights.split(",")
     }
     if (bridgeip != null){
       $("#bridgeinfo").hide();
       var hueTimer = Object.create(HueTimer,{bridgeIP:bridgeip,
-        lights: lights,
-        pressBridge:function(msg){
-          $("#errormsg").html(msg);
-          $("#bridgeinfo").show();
-          $("#bridgeipinput").val(bridgeip);
-          $("#bridgeipinput").focus();
-        },
+          debugMode:true,
+          lights: lights,
+          pressBridge:function(msg){
+            $("#errormsg").html(msg);
+            $("#bridgeinfo").show();
+            $("#bridgeipinput").val(bridgeip);
+            $("#bridgeipinput").focus();
+          },
         });
       // check registration
       hueTimer.registration();
