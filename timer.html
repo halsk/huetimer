@@ -1,0 +1,78 @@
+<html>
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+  <!--[if IE]><script type="text/javascript" src="excanvas.js"></script><![endif]-->
+  <script src="js/jquery.knob.js"></script>
+  <script src="js/jquery.knob.timer.js"></script>
+  <script src="js/huetimer.js"></script>
+  <style>
+  body {
+    background-color: #000000;
+  }
+  #timerbox{margin: 0 auto;text-align:center;height:100%;vertical-center:middle;}
+  .qa{position:absolute;top:100;}
+  #qabox{position:absolute;top:0;width:100%;text-align:center;height:100%;vertical-align: middle;}
+  #bridgeinfo{position:absolute;top:0;color:#fff;text-align:center;margin:0 auto;width:100%;};
+  </style>
+</head>
+<body>
+  <div id="timerbox">
+    <input class="knob" data-width="200" data-displayPrevious=true value="0">
+    <div id="qabox">
+      <input class="qa" data-width="200" data-displayPrevious=true value="0">
+    </div>
+  </div>
+  <div id="bridgeinfo">
+      <form>
+      Please set Bridge IP and press Bridge button, then submit button<br/>
+      Bridge IP:<input type="text" name="bridgeip" id="bridgeipinput"></input><input type="submit" name="submit"></input><br/>
+      <img src="press_smartbridge.png">
+  </div>
+  <script>
+    $.urlParam = function(name){
+        var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        if (results==null){
+           return null;
+        }
+        else{
+           return results[1] || 0;
+        }
+    }
+    var bridgeip = $.urlParam("bridgeip");
+    var maxTime = $.urlParam("maxtime");
+    var secondtime = $.urlParam("secondtime");
+    var lights = $.urlParam("lights");
+    if (lights){
+      lights = lights.split(",")
+    }
+    if (bridgeip){
+      $("#bridgeinfo").hide();
+    }
+    var hueTimer = Object.create(HueTimer,{bridgeIP:bridgeip,
+        lights: lights,
+        pressBridge:function(){
+          $("#bridgeinfo").show();
+          $("#bridgeipinput").val(bridgeip);
+          $("#bridgeipinput").focus();
+        },
+        });
+    // check registration
+    hueTimer.registration();
+
+    var width=$(document).width();
+    var height=$(document).height();
+    console.log(height);
+    $('.knob').timer({
+        'width':Math.floor(height * 0.8),
+        'height':Math.floor(height * 0.8),
+        notifyObject:hueTimer,
+        maxTime: maxTime,
+        secondTime: secondtime
+        });
+    $('#timerbox').offset({'top':height * 0.1})
+    $('#qabox').offset({top:height * 0.8 * 0.25});
+    $('#qabox').hide()
+  </script>
+  <audio id="audio" src="voices/timeup.mp3" type="audio/mpeg" preload="auto">
+</body>
+</html>
