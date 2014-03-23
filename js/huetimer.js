@@ -29,8 +29,8 @@ var HueTimer = {
   options:{
     bridgeIP:"192.168.1.146",
     apiKey:"huetimerapp",
-    pressBridge:function(){
-      alert("prease press the bridge button and reload this page again");
+    pressBridge:function(msg){
+      alert(msg);
     },
   },
   init: function(options){
@@ -53,6 +53,9 @@ var HueTimer = {
               self.lights.push(key);
               });
           }
+        },
+        error:function(data){
+          self.options.pressBridge("Couldn't connect to the bridge. Please set correct Bridge IP and press Bridge button, then submit button");
         }});
 
   },
@@ -68,7 +71,7 @@ var HueTimer = {
           if (data[0].success){
             console.log("success");
           }else if (data[0].error.type == 101){
-            self.options.pressBridge();
+            self.options.pressBridge("Please set Bridge IP and press Bridge button, then submit button");
             console.log("need to registration");
           }
         }
